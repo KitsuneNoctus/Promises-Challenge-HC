@@ -15,21 +15,50 @@
  *    order will the steps be printed now? Why? Re-run the code again to verify
  *    your expectation. Were you correct?
  * 
+ * I thought the steps would come out in 1,2,3 order, but it stayed int 1,3,2 order instead.
+ * Maybe its simply beacuse the second step has more happening, even if only a line or tow more.
+ * I was not correct
+ * 
  *******************************************************************************
  */
 
 /* This function takes a callback as a parameter. */
-function snooze(action) {
-    setTimeout(function() {
-      action();
-    }, 2000);
+function ensureSteps(step){
+  return new Promise(function(resolve,reject){
+
+    console.log(step)
+  
+    if(step == "step 0"){
+      resolve("step 1")
+    }else if(step == "step 1"){
+      resolve("step 2")
+    }else if(step == "step 2"){
+      resolve("step 3")
+    }else if(step == "step 3"){
+      resolve("step 4")
+    }
+    else{
+      reject("not a step")
+    }
+  
+  })
 }
-console.log('Step 1');
+ensureSteps("step 0")
+.then(step => ensureSteps(step))
+.then(step => ensureSteps(step))
+.then(step => ensureSteps(step))
+.catch(err => console.log(err))
+// function snooze(action) {
+//     setTimeout(function() {
+//       action();
+//     }, 0);
+// }
+// console.log('Step 1');
 
-snooze( function() {
-    console.log('Step 2');
-    console.log("Async Action completed via callback");
-} );
+// snooze( function() {
+//     console.log('Step 2');
+//     console.log("Async Action completed via callback");
+// } );
 
-console.log('Step 3');
+// console.log('Step 3');
 

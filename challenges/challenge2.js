@@ -6,15 +6,28 @@
  * 1. Read over the code that follows. What will be printed to the console when
  *    it runs? Run the code using `node challenge2.js` and verify that your
  *    expectation was correct.
- * 
+ *  Hello there, Ducky
+ *  Make School is Awesome!
  * 
  * 2. What happens if greet() fails? Make it fail by changing 'name' to a number
  *    instead of a string. What happens? Does uppercaser() still run?
  * 
+ * The response is: 
+ * Received an error!
+ * Name must be a string!
+ * 
+ * Upper caser does not run, and there is an error run instead
  * 
  * 3. What happens if greet() succeeds and uppercaser() fails? Modify your code
  *    to achieve this result by changing the values of 'name' and 'my_str' and
  *    run the code again.
+ * 
+ * It spits out an error
+ * The output was:
+ * 
+ * Hello there, Ducky
+ * Received an error!
+ * Argument to uppercaser must be string
  * 
  * 
  * 4. Write a method that takes a string as input and returns the input string
@@ -35,6 +48,19 @@
   * Asynchronously returns a greeting for a specified name.
   * @param name The name of the person to greet.
   */
+
+function spacer(str){
+  return new Promise(function(resolve, reject) {
+    setTimeout(function() {
+      if (typeof str === 'string') { 
+        resolve(str.split('').join(' '));
+      } else {
+        reject('Must be string');
+      }
+    }, 1000);
+  });
+}
+
 function greet(name) {
     return new Promise(function(resolve, reject) {
       setTimeout(function() {
@@ -64,7 +90,7 @@ function uppercaser(str) {
 }
 
 name = 'Ducky'
-my_str = 'Make School is Awesome!!!'
+my_str = 'What a time to be alive'
 
 greet(name)
     .then((greetResult) => {
@@ -73,7 +99,12 @@ greet(name)
     })
     .then((uppercaserResult) => {
         console.log(uppercaserResult)
-    }).catch((err) => {
+        return spacer(uppercaserResult);
+    })
+    .then((spacedResult)=>{
+      console.log(spacedResult)
+    })
+    .catch((err) => {
         console.log('Received an error!')
         console.log(err);
     });
